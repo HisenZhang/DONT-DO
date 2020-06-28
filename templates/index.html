@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<meta http-equiv="refresh" content="5">
+{% if not game.run %}
+<meta http-equiv="refresh" content="6">
+{% else %}
+<meta http-equiv="refresh" content="2">
+{% endif %}
 <link rel="stylesheet" href="https://cdn.rawgit.com/Chalarangelo/mini.css/v3.0.1/dist/mini-default.min.css">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -48,14 +52,14 @@
     </ol>
     {% endif %}
 
-    {% if not game.run %}
+    {% if ( not game.run ) and (game.players|length > 1) %}
     <input type="button" onclick="location.href='/start';" value="Start" />
     {% endif %}
     {% if game.run %}
     <input type="button" onclick="location.href='/pass';" value="Pass" />
     {% endif %}
     <!-- <input type="button" onclick="location.href='/test';" value="Test" /> -->
-    <input type="button" onclick="location.href='/reset';" value="Reset" />
+    <input type="button" onclick="if(confirm('确认重置本盘游戏？')){location.href='/reset';}" value="Reset" />
     <footer>
         <small>&copy; 2020 <a href="https://hisenz.com">Hisen Zhang</a></small>
     </footer>

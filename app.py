@@ -43,10 +43,7 @@ def login():
 
 @app.route("/start", methods=["GET"])
 def start():
-    if len(game.players) < 2:
-        return f'Needs at least two players to start a game.'
-
-    cardNumber = 3*len(game.players)
+    cardNumber = 3 * len(game.players)
     if cardNumber > len(cardDefs):
         return f'Insufficient cards!'
 
