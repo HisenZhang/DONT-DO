@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta http-equiv="refresh" content="5">
+<link rel="stylesheet" href="https://cdn.rawgit.com/Chalarangelo/mini.css/v3.0.1/dist/mini-default.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<head>
+    <meta charset="utf-8">
+    <title>Don't Do</title>
+</head>
+
+<body>
+    <center>
+        <h1>不要做挑战</h1>
+    </center>
+
+    {% if playerName is not none %}
+    <p>Logged in as {{ playerName }} @ {{ playerAddr }}.</p>
+    {% else %}
+    {% if not game.run %}
+    <form action="/login" method="post">
+        <input type="text" placeholder="username" name="user" />
+        <button>Login</button>
+    </form>
+    {% endif %}
+    {% endif %}
+
+    {% if game.run %}
+    <h2>卡牌剩余 {{game.cards.get(playerAddr)|length}} </h2>
+    {% for addr,cards in game.cards.items() %}
+    {% if addr != playerAddr %}
+    <p>{{ game.players.get(addr) }} ({{ cards|length }}) : {{ cards[-1] }}</p>
+    {% endif %}
+    {% endfor %}
+    {% if game.lastcard.get(playerAddr) is not none %}
+    <h2>上一张牌</h2>
+    <p> {{ game.lastcard.get(playerAddr) }} </p>
+    {% endif %}
+    {% endif %}
+
+
+    {% if game.players|length > 0 %}
+    <h2>玩家列表</h2>
+    <ol>
+        {% for addr,name in game.players.items() %}
+        <li>{{ name }} @ {{ addr }}</li>
+        {% endfor %}
+    </ol>
+    {% endif %}
+
+    {% if not game.run %}
+    <input type="button" onclick="location.href='/start';" value="Start" />
+    {% endif %}
+    {% if game.run %}
+    <input type="button" onclick="location.href='/pass';" value="Pass" />
+    {% endif %}
+    <!-- <input type="button" onclick="location.href='/test';" value="Test" /> -->
+    <input type="button" onclick="location.href='/reset';" value="Reset" />
+    <footer>
+        <small>&copy; 2020 <a href="https://hisenz.com">Hisen Zhang</a></small>
+    </footer>
+</body>
+
+</html>
