@@ -52,8 +52,11 @@
     </ol>
     {% endif %}
 
-    {% if ( not game.run ) and (game.players|length > 1) %}
+    {% if not game.run %}
+    {% if game.players|length > 1 %}
     <input type="button" onclick="location.href='/start';" value="Start" />
+    {% endif %}
+    <input type="button" onclick="location.href='/settings';" value="Settings" />
     {% endif %}
     {% if game.run %}
     <input type="button" onclick="location.href='/pass';" value="Pass" />

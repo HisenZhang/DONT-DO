@@ -11,7 +11,11 @@ class Game(object):
         self.players = dict()
         self.cards = dict()
         self.lastcard = dict()
-        self.cardPool = cardDefs
+        self.cardPool = set(cardDefs)
+        self.settings = {
+            'quantity':3,
+            'extraCards':set()
+        }
 
 game = Game()
 
@@ -40,19 +44,39 @@ def login():
         pass
     return redirect('/',302)
 
+@app.route("/settings", methods=["GET","POST"])
+def settings():
+    if game.run:
+        return redirect('/',302)
+    if request.method == "GET":
+        return render_template('settings.html',game = game)
+    elif request.method == "POST":
+        game.settings['quantity'] = int(request.form['quantity'])
+        
+        userInput = request.form['extraCards'].split('\r')
+        for i in userInput:
+            if i.strip() != '':
+                game.settings['extraCards'].add(i.strip())
+        return redirect('/',302)
+    
 
 @app.route("/start", methods=["GET"])
 def start():
-    cardNumber = 3 * len(game.players)
+    cardNumber = game.settings['quantity'] * len(game.players)
     if cardNumber > len(cardDefs):
         return f'Insufficient cards!'
 
-    selection = sample(game.cardPool,cardNumber)
+    if len(game.settings['extraCards']) > cardNumber:
+        selection = list(sample(game.settings['extraCards'],cardNumber))
+    else: 
+        selection = list(game.settings['extraCards'])
+        selection.extend(sample(game.cardPool,cardNumber-len(selection)))
+    
     shuffle(selection)
 
     for addr,_ in game.players.items():
         game.cards.update({addr:[]})
-        for i in range(3):
+        for i in range(game.settings['quantity']):
             game.cards[addr].append(selection.pop())
 
     for addr,_ in game.lastcard.items():
@@ -79,8 +103,7 @@ def test():
 
 @app.route("/reset", methods=["GET"])
 def reset():
-    game.run = False
-    game.players = dict()
+    game.__init__()
     return redirect('/',302)
 
 if __name__ == '__main__':
