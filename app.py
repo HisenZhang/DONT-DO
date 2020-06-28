@@ -1,23 +1,7 @@
 from flask import Flask,request,jsonify,redirect,render_template
 from random import sample,shuffle
+from __init__ import game,app
 
-from defs import cardDefs
-
-app = Flask(__name__)
-
-class Game(object):
-    def __init__(self):
-        self.run = False
-        self.players = dict()
-        self.cards = dict()
-        self.lastcard = dict()
-        self.cardPool = set(cardDefs)
-        self.settings = {
-            'quantity':3,
-            'extraCards':set()
-        }
-
-game = Game()
 
 @app.route('/', methods=["GET"])
 def hello():
@@ -63,7 +47,7 @@ def settings():
 @app.route("/start", methods=["GET"])
 def start():
     cardNumber = game.settings['quantity'] * len(game.players)
-    if cardNumber > len(cardDefs):
+    if cardNumber > len(game.cardPool):
         return f'Insufficient cards!'
 
     if len(game.settings['extraCards']) > cardNumber:
@@ -108,4 +92,5 @@ def reset():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port='80',debug=True)
+   
 
