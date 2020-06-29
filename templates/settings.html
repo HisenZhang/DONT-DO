@@ -10,21 +10,24 @@
 </head>
 
 <body>
-    <h1>不要做挑战</h1>
-    <form action="/settings" method="post">
-        <h2>卡片数量</h2>
-        <input type="number" min="1" name="quantity" value={{ game.settings.get('quantity') }}>
-        <h2>额外卡片</h2>
-        <p>每行一条</p>
-        <textarea id="extraCards" name="extraCards" rows="6" placeholder="One entry per line">{% if game.settings.get('extraCards')|length > 1 %}{% for card in game.settings.get('extraCards') %}
+    <center>
+        <h1>不要做挑战</h1>
+        <form action="/settings" method="post">
+            <h2>卡牌数量</h2>
+            <p>每个玩家初始持有的卡牌数量</p>
+            <input type="number" min="1" name="quantity" value={{ game.settings.get('quantity') }}>
+            <h2>额外卡牌</h2>
+            <p>优先覆盖默认卡牌库，每行一条</p>
+            <textarea id="extraCards" name="extraCards" rows="6" placeholder="One entry per line">{% if game.settings.get('extraCards')|length > 1 %}{% for card in game.settings.get('extraCards') %}
 {{ card }}{% endfor %}{% endif %}</textarea>
-        <br>
-        <input type="submit" onclick="location.href='/';" value="Submit">
-    </form>
+            <br>
+            <input type="submit" onclick="location.href='/';" value="Submit">
+        </form>
 
-    <footer>
-        <small>&copy; 2020 <a href="https://hisenz.com">Hisen Zhang</a></small>
-    </footer>
+        <footer>
+            <small>&copy; 2020 <a href="https://hisenz.com">Hisen Zhang</a></small>
+        </footer>
+    </center>
 </body>
 
 </html>
