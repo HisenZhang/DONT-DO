@@ -29,4 +29,4 @@ python app.py # requires Python 3.7.6
 ```
 
 ## 屏幕截图
-![screenshot.v0.2.1](/blob/master/doc/image/screenshot.v0.2.1.jpg?raw=true)
+![screenshot.v0.2.1](https://github.com/HisenZhang/DONT-DO/blob/master/doc/image/screenshot.v0.2.1.jpg?raw=true)
