@@ -1,0 +1,1 @@
+pyinstaller -F --noupx app.spec
